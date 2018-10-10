@@ -61,7 +61,7 @@ public class UserController {
     @RequestMapping(value = "/findByName", method = RequestMethod.POST)
     public Iterable<UserBean> findByName(@RequestParam(value = "username") String username) {
 
-        Iterable<UserBean> users = userDAO.findAll();
+        Iterable<UserBean> users = userDAO.findByName(username);
 
         if (users == null) return null;
         else return users;
@@ -78,9 +78,13 @@ public class UserController {
     @ApiOperation(value = "删除用户")
     @ApiImplicitParam(name = "id", value = "userid", paramType = "query", required = true, dataType = "long")
     @RequestMapping(value = "/deleteById", method = RequestMethod.POST)
-    public String deleteById(@RequestParam(value = "userid") long id) {
+    public String deleteById(@RequestParam(value = "userid") long userid) {
 
-        userDAO.delete(id);
+        UserBean user = userDAO.findById(userid);
+
+        if (user == null) return "未查询到该用户!";
+
+        userDAO.delete(userid);
 
         return "delete success !";
     }
