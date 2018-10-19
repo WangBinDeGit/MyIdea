@@ -4,6 +4,7 @@ import java.util.Map;
 
 /**
  * Created by WangBin on 2018/10/10
+ * 返回封装总类
  */
 public class ResultModel {
 

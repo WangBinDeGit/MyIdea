@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by WangBin on 2018/4/12.
- * name
+ * HouseBean 映射house表
  */
 
 @Entity

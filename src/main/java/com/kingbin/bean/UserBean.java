@@ -1,10 +1,12 @@
 package com.kingbin.bean;
 
+import com.kingbin.ObjectUtils;
+
 import javax.persistence.*;
 
 /**
  * Created by WangBin on 2018/4/11.
- * name
+ * UserBean 映射user表
  */
 @Entity
 @Table(name = "user")
@@ -41,6 +43,7 @@ public class UserBean {
     }
 
     public Integer getAge() {
+        if (ObjectUtils.isEmpty(age)) age = 0;
         return age;
     }
 

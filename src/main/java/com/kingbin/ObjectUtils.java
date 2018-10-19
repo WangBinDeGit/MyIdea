@@ -41,7 +41,9 @@ public class ObjectUtils {
      */
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
-    }/**
+    }
+
+    /**
      * 判断字符串为空
      *
      * @param o
@@ -144,6 +146,7 @@ public class ObjectUtils {
 
     /**
      * Object类型不为空
+     *
      * @param o
      * @return
      */
