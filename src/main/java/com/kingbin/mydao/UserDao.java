@@ -2,7 +2,6 @@ package com.kingbin.mydao;
 
 import com.kingbin.bean.UserBean;
 import org.mapstruct.Mapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -11,10 +10,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 @Mapper
 public interface UserDao extends CrudRepository<UserBean, Long> {
-
+    /*******根据id查询符合用户********/
     UserBean findById(long userid);
-
-    @Value("select * from user where username = ?")
-    Iterable<UserBean> findByName(String userName);
 
 }
