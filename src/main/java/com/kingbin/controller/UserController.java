@@ -79,6 +79,23 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "查找用户")
+    @RequestMapping(value = "/findUserByUser", method = RequestMethod.POST)
+    public ResultModel findUserByUser(String userName, String passWord, Integer age) {
+        try {
+            UserBean user = new UserBean();
+            user.setUsername(userName);
+            user.setPassword(passWord);
+            user.setAge(age);
+            Iterable<UserBean> users = userMapper.findUserByUser(user);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("content", users);
+            return ResultTools.result(0, "", map);
+        } catch (Exception e) {
+            return ResultTools.result(404, e.getMessage(), null);
+        }
+    }
+
     @ApiOperation(value = "添加用户")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "userName", paramType = "query", required = true),
