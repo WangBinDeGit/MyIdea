@@ -1,13 +1,11 @@
 package com.kingbin.controller;
 
-import com.kingbin.ObjectUtils;
-import com.kingbin.bean.ResultModel;
-import com.kingbin.bean.ResultTools;
-import com.kingbin.bean.UserBean;
-import com.kingbin.mydao.UserMapper;
+import com.kingbin.mapper.UserMapper;
+import com.kingbin.model.ResultModel;
+import com.kingbin.model.ResultTools;
+import com.kingbin.model.UserBean;
+import com.kingbin.tools.ObjectUtils;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +44,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "查找用户")
-    @ApiImplicitParam(name = "id", value = "userId", paramType = "query", required = true, dataType = "Long")
     @RequestMapping(value = "/findUserById", method = RequestMethod.POST)
     public ResultModel findUserById(@RequestParam(value = "userId") Long userId) {
         try {
@@ -62,7 +59,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "查找用户")
-    @ApiImplicitParam(name = "username", value = "userName", paramType = "query", required = true)
     @RequestMapping(value = "/findUserByName", method = RequestMethod.POST)
     public ResultModel findUserByName(@RequestParam(value = "userName") String userName, String type) {
         try {
@@ -84,9 +80,9 @@ public class UserController {
     public ResultModel findUserByUser(String userName, String passWord, Integer age) {
         try {
             UserBean user = new UserBean();
-            user.setUsername(userName);
-            user.setPassword(passWord);
-            user.setAge(age);
+            user.setUserName(userName);
+            user.setPassWord(passWord);
+            user.setUserAge(age);
             Iterable<UserBean> users = userMapper.findUserByUser(user);
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("content", users);
@@ -97,18 +93,14 @@ public class UserController {
     }
 
     @ApiOperation(value = "添加用户")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "userName", paramType = "query", required = true),
-            @ApiImplicitParam(name = "password", value = "passWord", paramType = "query", required = true),
-            @ApiImplicitParam(name = "age", value = "age", paramType = "query", required = true, dataType = "Integer")
-    })
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public ResultModel addUser(@RequestParam(value = "userName") String userName, String passWord, Integer age) {
         try {
             UserBean user = new UserBean();
-            user.setUsername(userName);
-            user.setPassword(passWord);
-            user.setAge(age);
+            user.setUserName(userName);
+            user.setPassWord(passWord);
+            user.setUserAge(age);
+            user.setUserSex(1);
             int code = userMapper.addUser(user);
             if (1 == code) return ResultTools.result(0, "添加成功", null);
             else return ResultTools.result(0, "添加失败", null);
@@ -121,8 +113,9 @@ public class UserController {
     @RequestMapping(value = "/addUsers", method = RequestMethod.POST)
     public ResultModel addUsers(UserBean user) {
         try {
-            if (ObjectUtils.isEmpty(user) || ObjectUtils.isEmpty(user.getUsername()))
-                ResultTools.result(1001, "", null);
+            if (ObjectUtils.isEmpty(user) || ObjectUtils.isEmpty(user.getUserName()))
+                return ResultTools.result(1001, "", null);
+            if (ObjectUtils.isEmpty(user.getUserSex())) user.setUserSex(1);
             int code = userMapper.addUser(user);
             if (1 == code) return ResultTools.result(0, "添加成功", null);
             else return ResultTools.result(0, "添加失败", null);
@@ -133,15 +126,15 @@ public class UserController {
 
     @ApiOperation(value = "修改用户")
     @RequestMapping(value = "/upDataUserById", method = RequestMethod.POST)
-    public ResultModel upDataUserById(@RequestParam(value = "userId") Long userId, String userName, String passWord, Integer age) {
+    public ResultModel upDataUserById(@RequestParam(value = "userId") Long userId, String userName, String passWord, Integer userAge) {
         try {
-            if (ObjectUtils.isEmpty(userId))
+            if (ObjectUtils.isEmpty(userId) || (ObjectUtils.isEmpty(userName) && ObjectUtils.isEmpty(passWord) && ObjectUtils.isEmpty(userAge)))
                 return ResultTools.result(1001, "", null);
             UserBean user = new UserBean();
-            user.setId(userId);
-            user.setUsername(userName);
-            user.setPassword(passWord);
-            user.setAge(age);
+            user.setUserId(userId);
+            user.setUserName(userName);
+            user.setPassWord(passWord);
+            user.setUserAge(userAge);
             int code = userMapper.updateUser(user);
             if (1 == code) return ResultTools.result(0, "修改成功", null);
             UserBean userBean = userMapper.findUserById(userId);
@@ -153,8 +146,28 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "修改用户")
+    @RequestMapping(value = "/upDataUserByUser", method = RequestMethod.POST)
+    public ResultModel upDataUserByUser(UserBean user) {
+        try {
+            if (ObjectUtils.isEmpty(user) || ObjectUtils.isEmpty(user.getUserId()) ||
+                    (ObjectUtils.isEmpty(user.getUserName()) && ObjectUtils.isEmpty(user.getPassWord())
+                            && ObjectUtils.isEmpty(user.getUserSex()) && ObjectUtils.isEmpty(user.getUserAge())
+                            && ObjectUtils.isEmpty(user.getUserSex()) && ObjectUtils.isEmpty(user.getUserAddress())
+                            && ObjectUtils.isEmpty(user.getUserPhoto())))
+                return ResultTools.result(1001, "", null);
+            int code = userMapper.updateUser(user);
+            if (1 == code) return ResultTools.result(0, "修改成功", null);
+            UserBean userBean = userMapper.findUserById(user.getUserId());
+            if (ObjectUtils.isEmpty(userBean))
+                return ResultTools.result(1002, "未查询到该用户", null);
+            return ResultTools.result(404, "修改失败", null);
+        } catch (Exception e) {
+            return ResultTools.result(404, e.getMessage(), null);
+        }
+    }
+
     @ApiOperation(value = "根据userId删除用户")
-    @ApiImplicitParam(name = "id", value = "userId", paramType = "query", required = true, dataType = "Long")
     @RequestMapping(value = "/deleteUserById", method = RequestMethod.POST)
     public ResultModel deleteUserById(@RequestParam(value = "userId") Long userId) {
         try {
@@ -172,7 +185,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据userName删除用户")
-    @ApiImplicitParam(name = "username", value = "userName", paramType = "query", required = true)
     @RequestMapping(value = "/deleteUserByName", method = RequestMethod.POST)
     public ResultModel deleteUserByName(@RequestParam(value = "userName") String userName, String type) {
         try {

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingbin.mapper.HouseMapper">
+
+    <!-- 返回结果map与object的关系 -->
+    <resultMap id="HouseResultMap" type="com.kingbin.model.HouseBean">
+        <result column="id" jdbcType="BIGINT" property="houseId"/>
+        <result column="house_title" jdbcType="VARCHAR" property="houseTitle"/>
+        <result column="house_content" jdbcType="VARCHAR" property="houseContent"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    </resultMap>
+
+    <select id="findHouseByAll" parameterType="com.kingbin.model.HouseBean" resultMap="HouseResultMap">
+        select *
+        from house
+    </select>
+
+    <select id="findHouseByUserId" parameterType="java.lang.Long" resultMap="HouseResultMap">
+        select *
+        from house
+        where userid = #{userId,jdbcType = VARCHAR}
+    </select>
+
+    <select id="findHouseByUserName" parameterType="java.lang.String" resultMap="HouseResultMap">
+        select *
+        from house
+        where user_id in (
+        select user_id from user where user.user_name = #{userName,jdbcType = VARCHAR}
+        )
+    </select>
+
+    <delete id="deleteHouse" parameterType="com.kingbin.model.HouseBean">
+        delete from user where userid = #{userId}
+    </delete>
+</mapper>

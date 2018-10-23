@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingbin.mapper.UserMapper">
+
+    <!-- 返回结果map与object的关系 -->
+    <resultMap id="UserResultMap" type="com.kingbin.model.UserBean">
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="pass_word" jdbcType="VARCHAR" property="passWord"/>
+        <result column="user_age" jdbcType="INTEGER" property="userAge"/>
+        <result column="user_sex" jdbcType="INTEGER" property="userSex"/>
+        <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+        <result column="user_photo" jdbcType="VARCHAR" property="userPhoto"/>
+    </resultMap>
+
+    <select id="findUserByAll" parameterType="com.kingbin.model.UserBean" resultMap="UserResultMap">
+        SELECT *
+        FROM user
+    </select>
+
+    <select id="findUserById" parameterType="java.lang.Long" resultMap="UserResultMap">
+        SELECT *
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
+
+    <select id="findUserByName" parameterType="java.lang.String" resultMap="UserResultMap">
+        SELECT *
+        FROM user
+        WHERE user_name = #{userName}
+    </select>
+
+    <select id="findUserLikeName" parameterType="java.lang.String" resultMap="UserResultMap">
+        SELECT *
+        FROM user
+        WHERE user_name LIKE concat('%', #{userName}, '%')
+    </select>
+
+    <select id="findUserByUser" parameterType="com.kingbin.model.UserBean" resultMap="UserResultMap">
+        SELECT *
+        FROM user
+        <where>
+            <if test="userName!=null">AND user_name LIKE concat('%', #{userName,jdbcType = VARCHAR}, '%')</if>
+            <if test="userAge!=null">AND user_age = #{userAge,jdbcType = VARCHAR}</if>
+            <if test="userSex!=null">AND user_sex = #{userSex,jdbcType = VARCHAR}</if>
+        </where>
+        ORDER BY user_id ASC;
+    </select>
+
+    <insert id="addUser" parameterType="com.kingbin.model.UserBean">
+        INSERT INTO user (user_name, pass_word, user_age, user_sex, user_address, user_photo)
+        VALUES (#{userName}, #{passWord}, #{userAge}, #{userSex}, #{userAddress}, #{userPhoto})
+    </insert>
+
+    <update id="updateUser" parameterType="com.kingbin.model.UserBean">
+        UPDATE user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userName!=null">user_name = #{userName,jdbcType = VARCHAR},</if>
+            <if test="passWord!=null">pass_word = #{passWord,jdbcType = VARCHAR},</if>
+            <if test="userAge!=null">user_age = #{userAge,jdbcType = INTEGER},</if>
+        </trim>
+        WHERE user_id = #{userId,jdbcType = BIGINT}
+    </update>
+
+    <delete id="deleteUserById" parameterType="java.lang.Long">
+        DELETE
+        FROM user
+        WHERE user_id = #{userId}
+    </delete>
+
+    <delete id="deleteUserByName" parameterType="java.lang.String">
+        DELETE
+        FROM user
+        WHERE user_name = #{userName}
+    </delete>
+
+    <delete id="deleteUserLikeName" parameterType="java.lang.String">
+        DELETE
+        FROM user
+        WHERE user_name LIKE CONCAT('%', #{userName}, '%')
+    </delete>
+</mapper>

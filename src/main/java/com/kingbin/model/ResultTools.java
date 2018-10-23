@@ -1,6 +1,6 @@
-package com.kingbin.bean;
+package com.kingbin.model;
 
-import com.kingbin.ObjectUtils;
+import com.kingbin.tools.ObjectUtils;
 
 import java.util.Map;
 

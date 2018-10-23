@@ -1,4 +1,4 @@
-package com.kingbin.bean;
+package com.kingbin.model;
 
 import java.util.Map;
 

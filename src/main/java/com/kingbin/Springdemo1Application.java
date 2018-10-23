@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.Properties;
 
 @SpringBootApplication
-@MapperScan("com.kingbin.mydao") // 告诉Mapper所在的包名
+@MapperScan("com.kingbin.mapper") // 告诉Mapper所在的包名
 public class Springdemo1Application implements EmbeddedServletContainerCustomizer {
 
     @Override
