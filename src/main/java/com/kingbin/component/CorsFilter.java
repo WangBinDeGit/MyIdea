@@ -3,8 +3,15 @@ package com.kingbin.component;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by WangBin on 2018/10/24
@@ -12,29 +19,74 @@ import java.io.IOException;
  * 跨域过滤器
  */
 @Component
+@WebFilter(urlPatterns = "/house/*", filterName = "authFilter")
 public class CorsFilter implements Filter {
 
     final static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CorsFilter.class);
+    /**
+     * 封装，不需要过滤的list列表
+     */
+    private static List<Pattern> patterns = new ArrayList<Pattern>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.print("------------初始化过滤器------------");
+        System.out.println("------------初始化过滤器------------");
+        patterns.add(Pattern.compile("login/loginByName"));
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-        response.setHeader("Access-Control-Allow-Headers",
+        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        httpResponse.setHeader("Access-Control-Allow-Headers",
                 "Origin, X-Requested-With, Content-Type, Accept,x-requested-with");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        filterChain.doFilter(servletRequest, servletResponse);
+        httpResponse.setHeader("Access-Control-Max-Age", "3600");
+        System.out.println("------------前往------------");
+//        logger.info(httpRequest.getContextPath());
+        String url = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
+        if (url.startsWith("/") && url.length() > 1) {
+            url = url.substring(1);
+        }
+        if (isInclude(url)) {
+            filterChain.doFilter(httpRequest, httpResponse);
+        } else {
+            HttpSession session = httpRequest.getSession();
+            if (session != null && session.getAttribute("user") != null) {
+                // session存在
+                filterChain.doFilter(httpRequest, httpResponse);
+            } else {
+                // session不存在 准备跳转失败
+                RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("login/loginByName");
+                dispatcher.forward(servletRequest, httpResponse);
+                filterChain.doFilter(httpRequest, httpResponse);
+            }
+        }
+        System.out.println("------------返回------------");
     }
 
     @Override
     public void destroy() {
-        System.out.print("------------销毁过滤器------------");
+        System.out.println("------------销毁过滤器------------");
     }
+
+    /**
+     * 是否需要过滤
+     *
+     * @param url
+     * @return
+     */
+    private boolean isInclude(String url) {
+        for (Pattern pattern : patterns) {
+            Matcher matcher = pattern.matcher(url);
+            if (matcher.matches()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

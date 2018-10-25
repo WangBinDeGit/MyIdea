@@ -35,7 +35,9 @@ public class ResultTools {
                     model.setData(map);
                 break;
             case 1001:
-                model.setErrmsg("请求传参错误 ");
+                if (ObjectUtils.isEmpty(Errmsg))
+                    model.setErrmsg("请求传参错误 ");
+                else model.setErrmsg(Errmsg);
                 break;
             case 1002:
                 model.setErrmsg("没有对应内容 ");

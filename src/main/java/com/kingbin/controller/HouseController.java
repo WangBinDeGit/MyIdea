@@ -25,7 +25,7 @@ public class HouseController {
     private HouseService service;
 
     @ApiOperation(value = "查询所有房源")
-    @RequestMapping(value = "/findHouseByAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/findHouseByAll", method = RequestMethod.POST)
     public ResultModel findHouseByAll() {
         return service.findHouseByAll();
     }

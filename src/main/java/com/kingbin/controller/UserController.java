@@ -25,7 +25,7 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation(value = "查询所有用户")
-    @RequestMapping(value = "/findUserByAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/findUserByAll", method = RequestMethod.POST)
     public ResultModel findUserByAll() {
         return userService.findUserByAll();
     }

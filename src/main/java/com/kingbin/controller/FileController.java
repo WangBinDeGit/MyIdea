@@ -2,9 +2,10 @@ package com.kingbin.controller;
 
 import com.kingbin.model.ResultModel;
 import com.kingbin.model.ResultTools;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ import java.util.*;
  * 文件上传
  */
 
-@Controller
+@RestController
 public class FileController {
 
     /**
@@ -56,6 +57,7 @@ public class FileController {
      * @param file 前台上传的文件对象
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResultModel upload(HttpServletRequest request, MultipartFile file) {
         String fileName = "";
@@ -67,6 +69,7 @@ public class FileController {
             String uploadDir = request.getSession().getServletContext().getRealPath("/") + "upload/";
             // 如果目录不存在，自动创建文件夹
             File dir = new File(uploadDir);
+            System.out.println(uploadDir);
             if (!dir.exists()) {
                 dir.mkdir();
             }
