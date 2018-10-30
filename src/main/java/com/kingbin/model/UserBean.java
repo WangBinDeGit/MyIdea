@@ -18,6 +18,7 @@ public class UserBean {
     private Integer userSex;
     private String userAddress;
     private String userPhoto;
+    private String userPhone;
 
     public Long getUserId() {
         return userId;
@@ -75,4 +76,11 @@ public class UserBean {
         this.userPhoto = userPhoto;
     }
 
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
 }

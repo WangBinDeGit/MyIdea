@@ -33,14 +33,14 @@
     <select id="findUserLikeName" parameterType="java.lang.String" resultMap="UserResultMap">
         SELECT *
         FROM user
-        WHERE user_name LIKE concat('%', #{userName}, '%')
+        WHERE user_name LIKE concat('%', #{userName,jdbcType = VARCHAR}, '%')
     </select>
 
     <select id="findUserByUser" parameterType="com.kingbin.model.UserBean" resultMap="UserResultMap">
         SELECT *
         FROM user
         <where>
-            <if test="userName!=null">AND user_name LIKE concat('%', #{userName,jdbcType = VARCHAR}, '%')</if>
+            <if test="userName!=null">AND user_name = #{userName,jdbcType = VARCHAR}</if>
             <if test="userAge!=null">AND user_age = #{userAge,jdbcType = VARCHAR}</if>
             <if test="userSex!=null">AND user_sex = #{userSex,jdbcType = VARCHAR}</if>
         </where>

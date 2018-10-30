@@ -12,4 +12,6 @@ public interface LoginService {
 
     ResultModel loginByName(UserBean userBean, HttpServletRequest request);
 
+    ResultModel loginByPhone(UserBean userBean, HttpServletRequest request);
+
 }

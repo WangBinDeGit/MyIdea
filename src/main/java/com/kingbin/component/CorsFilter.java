@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * 跨域过滤器
  */
 @Component
-@WebFilter(urlPatterns = "/house/*", filterName = "authFilter")
+@WebFilter(urlPatterns = "/*", filterName = "authFilter")
 public class CorsFilter implements Filter {
 
     final static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CorsFilter.class);
@@ -31,7 +31,7 @@ public class CorsFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         System.out.println("------------初始化过滤器------------");
-        patterns.add(Pattern.compile("login/loginByName"));
+        patterns.add(Pattern.compile("/login/login"));
     }
 
     @Override
@@ -45,11 +45,12 @@ public class CorsFilter implements Filter {
                 "Origin, X-Requested-With, Content-Type, Accept,x-requested-with");
         httpResponse.setHeader("Access-Control-Max-Age", "3600");
         System.out.println("------------前往------------");
-//        logger.info(httpRequest.getContextPath());
+        logger.info(httpRequest.getRequestURI());
+        logger.info(httpRequest.getContextPath());
         String url = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
-        if (url.startsWith("/") && url.length() > 1) {
-            url = url.substring(1);
-        }
+//        if (url.startsWith("/") && url.length() > 1) {
+//            url = url.substring(1);
+//        }
         if (isInclude(url)) {
             filterChain.doFilter(httpRequest, httpResponse);
         } else {
@@ -59,10 +60,12 @@ public class CorsFilter implements Filter {
                 filterChain.doFilter(httpRequest, httpResponse);
             } else {
                 // session不存在 准备跳转失败
-                RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("login/loginByName");
-                dispatcher.forward(servletRequest, httpResponse);
-                filterChain.doFilter(httpRequest, httpResponse);
+//                RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/login/login");
+//                dispatcher.forward(servletRequest, httpResponse);
+                httpResponse.sendRedirect("http://192.168.16.189:8080/login/login");
+                return;
             }
+            filterChain.doFilter(httpRequest, httpResponse);
         }
         System.out.println("------------返回------------");
     }
@@ -87,6 +90,5 @@ public class CorsFilter implements Filter {
         }
         return false;
     }
-
 
 }
