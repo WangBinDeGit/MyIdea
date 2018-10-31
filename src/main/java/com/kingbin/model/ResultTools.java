@@ -40,7 +40,9 @@ public class ResultTools {
                 else model.setErrmsg(Errmsg);
                 break;
             case 1002:
-                model.setErrmsg("没有对应内容 ");
+                if (ObjectUtils.isEmpty(Errmsg))
+                    model.setErrmsg("没有对应内容 ");
+                else model.setErrmsg(Errmsg);
                 break;
             case 1003:
                 model.setErrmsg("此用户已存在");

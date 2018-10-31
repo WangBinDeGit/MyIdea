@@ -4,6 +4,7 @@ F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\service\UserService.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\component\CorsFilter.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\mapper\HouseMapper.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\service\LoginServiceImpl.java
+F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\model\UpdateModel.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\service\UserServiceImpl.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\interceptor\MyWebAppConfigurer.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\model\HouseBean.java
@@ -11,6 +12,7 @@ F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\model\ResultTools.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\model\UserBean.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\model\ResultModel.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\Springdemo1Application.java
+F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\mapper\UpdateMapper.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\mapper\UserMapper.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\service\HouseService.java
 F:\IdeaProjects\MySpringBoot\src\main\java\com\kingbin\service\HouseServiceImpl.java

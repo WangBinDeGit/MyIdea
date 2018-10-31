@@ -31,7 +31,8 @@ public class CorsFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         System.out.println("------------初始化过滤器------------");
-        patterns.add(Pattern.compile("/login/login"));
+        patterns.add(Pattern.compile("/login/loginByName"));
+        patterns.add(Pattern.compile("/login/isUpdate"));
     }
 
     @Override
@@ -60,9 +61,9 @@ public class CorsFilter implements Filter {
                 filterChain.doFilter(httpRequest, httpResponse);
             } else {
                 // session不存在 准备跳转失败
-//                RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/login/login");
-//                dispatcher.forward(servletRequest, httpResponse);
-                httpResponse.sendRedirect("http://192.168.16.189:8080/login/login");
+                RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/login/loginByName");
+                dispatcher.forward(servletRequest, httpResponse);
+//                httpResponse.sendRedirect("http://192.168.16.189:8080/login/login");
                 return;
             }
             filterChain.doFilter(httpRequest, httpResponse);

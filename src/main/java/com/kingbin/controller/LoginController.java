@@ -1,6 +1,7 @@
 package com.kingbin.controller;
 
 import com.kingbin.model.ResultModel;
+import com.kingbin.model.UpdateModel;
 import com.kingbin.model.UserBean;
 import com.kingbin.service.LoginService;
 import io.swagger.annotations.Api;
@@ -39,6 +40,12 @@ public class LoginController {
     @RequestMapping(value = "/loginByPhone", method = RequestMethod.POST)
     public ResultModel loginByPhone(UserBean userBean, HttpServletRequest request) {
         return loginService.loginByPhone(userBean, request);
+    }
+
+    @ApiOperation(value = "判断是否升级")
+    @RequestMapping(value = "/isUpdate", method = RequestMethod.GET)
+    public UpdateModel isUpdate() {
+        return loginService.isUpdate();
     }
 
 }

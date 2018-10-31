@@ -42,4 +42,5 @@ public interface UserMapper {
 
     /*******根据名字是否包含字段删除用户********/
     int deleteUserLikeName(String userName);
+
 }

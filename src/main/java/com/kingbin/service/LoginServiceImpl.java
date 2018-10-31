@@ -1,8 +1,10 @@
 package com.kingbin.service;
 
+import com.kingbin.mapper.UpdateMapper;
 import com.kingbin.mapper.UserMapper;
 import com.kingbin.model.ResultModel;
 import com.kingbin.model.ResultTools;
+import com.kingbin.model.UpdateModel;
 import com.kingbin.model.UserBean;
 import com.kingbin.tools.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UpdateMapper updateMapper;
 
     @Override
     public ResultModel loginByName(UserBean userBean, HttpServletRequest request) {
@@ -36,7 +40,7 @@ public class LoginServiceImpl implements LoginService {
                 return ResultTools.result(0, "登陆成功", null);
             } else {
                 List<UserBean> users = userMapper.findUserByName(userBean.getUserName());
-                if (users != null && users.size() > 0) return ResultTools.result(0, "输入的密码错误", null);
+                if (users != null && users.size() > 0) return ResultTools.result(1002, "输入的密码错误", null);
                 else return ResultTools.result(1002, "用户名不存在", null);
             }
         } catch (Exception e) {
@@ -61,6 +65,24 @@ public class LoginServiceImpl implements LoginService {
             }
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public UpdateModel isUpdate() {
+        try {
+            List<UpdateModel> updateModels = updateMapper.findUpdate();
+            if (updateModels != null && updateModels.size() > 0) {
+                return updateModels.get(0);
+            } else {
+                UpdateModel updateModel = new UpdateModel();
+                updateModel.setUpdate("No");
+                return updateModel;
+            }
+        } catch (Exception e) {
+            UpdateModel updateModel = new UpdateModel();
+            updateModel.setUpdate("No");
+            return updateModel;
         }
     }
 
