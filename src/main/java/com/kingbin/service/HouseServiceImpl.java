@@ -8,9 +8,6 @@ import com.kingbin.tools.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by WangBin on 2018/10/23
  */
@@ -24,9 +21,7 @@ public class HouseServiceImpl implements HouseService {
     public ResultModel findHouseByAll() {
         try {
             Iterable<HouseBean> houseList = houseMapper.findHouseByAll();
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("content", houseList);
-            return ResultTools.result(0, "", map);
+            return ResultTools.result(200, "", houseList);
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
         }
@@ -37,9 +32,7 @@ public class HouseServiceImpl implements HouseService {
         try {
             if (ObjectUtils.isEmpty(userId)) return ResultTools.result(1001, "", null);
             Iterable<HouseBean> houseList = houseMapper.findHouseByUserId(userId);
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("content", houseList);
-            return ResultTools.result(0, "", map);
+            return ResultTools.result(200, "", houseList);
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
         }
@@ -50,9 +43,7 @@ public class HouseServiceImpl implements HouseService {
         try {
             if (ObjectUtils.isEmpty(userName)) return ResultTools.result(1001, "", null);
             Iterable<HouseBean> houseList = houseMapper.findHouseByUserName(userName);
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("content", houseList);
-            return ResultTools.result(0, "", map);
+            return ResultTools.result(200, "", houseList);
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
         }
@@ -66,7 +57,7 @@ public class HouseServiceImpl implements HouseService {
                             && ObjectUtils.isEmpty(houseBean.getUserId())))
                 return ResultTools.result(1001, "", null);
             int code = houseMapper.updateHouse(houseBean);
-            if (1 == code) return ResultTools.result(0, "修改成功", null);
+            if (1 == code) return ResultTools.result(200, "修改成功", null);
             HouseBean userBean = houseMapper.findHouseById(houseBean.getHouseId());
             if (ObjectUtils.isEmpty(userBean))
                 return ResultTools.result(1002, "未查询到该房屋", null);

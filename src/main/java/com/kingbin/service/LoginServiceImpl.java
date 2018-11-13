@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by WangBin on 2018/10/25
@@ -37,7 +35,7 @@ public class LoginServiceImpl implements LoginService {
             if (user != null && user.size() > 0) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                return ResultTools.result(0, "登陆成功", null);
+                return ResultTools.result(200, "登陆成功", user.get(0));
             } else {
                 List<UserBean> users = userMapper.findUserByName(userBean.getUserName());
                 if (users != null && users.size() > 0) return ResultTools.result(1002, "输入的密码错误", null);
@@ -57,7 +55,7 @@ public class LoginServiceImpl implements LoginService {
             if (user != null && user.size() > 0) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                return ResultTools.result(0, "登陆成功", null);
+                return ResultTools.result(200, "登陆成功", user);
             } else {
                 List<UserBean> users = userMapper.findUserByName(userBean.getUserPhoto());
                 if (users != null && users.size() > 0) return ResultTools.result(0, "输入的密码错误", null);

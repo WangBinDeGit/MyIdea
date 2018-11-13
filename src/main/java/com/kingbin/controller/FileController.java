@@ -11,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /*****
  * 文件上传
@@ -78,11 +80,9 @@ public class FileController {
         } catch (Exception e) {
             // 打印错误堆栈信息
             e.printStackTrace();
-            return ResultTools.result(1, "imgurl", null);
+            return ResultTools.result(404, "imgurl", null);
         }
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("img", fileName);
-        return ResultTools.result(0, "imgurl", map);
+        return ResultTools.result(200, "imgurl", fileName);
     }
 
     /**
@@ -107,20 +107,18 @@ public class FileController {
                 dir.mkdir();
             }
             // 遍历文件数组执行上传
-            for (int i = 0; i < file.length; i++) {
-                if (file[i] != null) {
+            for (MultipartFile aFile : file) {
+                if (aFile != null) {
                     // 调用上传方法
-                    imgLs.add("http://localhost:8080/upload/" + executeUpload(uploadDir, file[i]));
+                    imgLs.add("http://localhost:8080/upload/" + executeUpload(uploadDir, aFile));
                 }
             }
         } catch (Exception e) {
             // 打印错误堆栈信息
             e.printStackTrace();
-            return ResultTools.result(1, "imgurl", null);
+            return ResultTools.result(404, "imgurl", null);
         }
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("img", imgLs);
-        return ResultTools.result(0, "imgurl", map);
+        return ResultTools.result(200, "imgurl", imgLs);
     }
 
 }

@@ -8,9 +8,7 @@ import com.kingbin.tools.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by WangBin on 2018/10/23
@@ -25,9 +23,7 @@ public class UserServiceImpl implements UserService {
     public ResultModel findUserByAll() {
         try {
             Iterable<UserBean> users = userMapper.findUserByAll();
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("content", users);
-            return ResultTools.result(0, "", map);
+            return ResultTools.result(200, "", users);
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
         }
@@ -39,9 +35,7 @@ public class UserServiceImpl implements UserService {
             if (ObjectUtils.isEmpty(userId))
                 return ResultTools.result(1001, "", null);
             UserBean user = userMapper.findUserById(userId);
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("content", user);
-            return ResultTools.result(0, "", map);
+            return ResultTools.result(200, "", user);
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
         }
@@ -55,9 +49,7 @@ public class UserServiceImpl implements UserService {
             Iterable<UserBean> users;
             if ("like".equals(type)) users = userMapper.findUserLikeName(userName);
             else users = userMapper.findUserByName(userName);
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("content", users);
-            return ResultTools.result(0, "", map);
+            return ResultTools.result(200, "", users);
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
         }
@@ -71,9 +63,7 @@ public class UserServiceImpl implements UserService {
             user.setPassWord(passWord);
             user.setUserAge(age);
             Iterable<UserBean> users = userMapper.findUserByUser(user);
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("content", users);
-            return ResultTools.result(0, "", map);
+            return ResultTools.result(200, "", users);
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
         }
@@ -89,7 +79,7 @@ public class UserServiceImpl implements UserService {
             user.setUserSex(1);
             int code = userMapper.addUser(user);
             if (1 == code) return ResultTools.result(0, "添加成功", null);
-            else return ResultTools.result(0, "添加失败", null);
+            else return ResultTools.result(200, "添加失败", null);
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
         }
@@ -102,8 +92,8 @@ public class UserServiceImpl implements UserService {
                 return ResultTools.result(1001, "", null);
             if (ObjectUtils.isEmpty(user.getUserSex())) user.setUserSex(1);
             int code = userMapper.addUser(user);
-            if (1 == code) return ResultTools.result(0, "添加成功", null);
-            else return ResultTools.result(0, "添加失败", null);
+            if (1 == code) return ResultTools.result(200, "添加成功", null);
+            else return ResultTools.result(200, "添加失败", null);
         } catch (Exception e) {
             return ResultTools.result(404, e.getMessage(), null);
         }
@@ -120,7 +110,7 @@ public class UserServiceImpl implements UserService {
             user.setPassWord(passWord);
             user.setUserAge(userAge);
             int code = userMapper.updateUser(user);
-            if (1 == code) return ResultTools.result(0, "修改成功", null);
+            if (1 == code) return ResultTools.result(200, "修改成功", null);
             UserBean userBean = userMapper.findUserById(userId);
             if (ObjectUtils.isEmpty(userBean))
                 return ResultTools.result(1002, "未查询到该用户", null);
@@ -140,7 +130,7 @@ public class UserServiceImpl implements UserService {
                             && ObjectUtils.isEmpty(user.getUserPhoto())))
                 return ResultTools.result(1001, "", null);
             int code = userMapper.updateUser(user);
-            if (1 == code) return ResultTools.result(0, "修改成功", null);
+            if (1 == code) return ResultTools.result(200, "修改成功", null);
             UserBean userBean = userMapper.findUserById(user.getUserId());
             if (ObjectUtils.isEmpty(userBean))
                 return ResultTools.result(1002, "未查询到该用户", null);
@@ -156,7 +146,7 @@ public class UserServiceImpl implements UserService {
             if (ObjectUtils.isEmpty(userId))
                 return ResultTools.result(1001, "", null);
             int code = userMapper.deleteUserById(userId);
-            if (1 == code) return ResultTools.result(0, "删除成功", null);
+            if (1 == code) return ResultTools.result(200, "删除成功", null);
             UserBean userBean = userMapper.findUserById(userId);
             if (ObjectUtils.isEmpty(userBean))
                 return ResultTools.result(1002, "未查询到该用户", null);
@@ -174,7 +164,7 @@ public class UserServiceImpl implements UserService {
             int code;
             if ("like".equals(type)) code = userMapper.deleteUserLikeName(userName);
             else code = userMapper.deleteUserByName(userName);
-            if (0 != code) return ResultTools.result(0, "删除成功", null);
+            if (0 != code) return ResultTools.result(200, "删除成功", null);
             List<UserBean> userBeans = userMapper.findUserLikeName(userName);
             if (ObjectUtils.isEmpty(userBeans) || userBeans.size() == 0)
                 return ResultTools.result(1002, "未查询到符合条件用户", null);

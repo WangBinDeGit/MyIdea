@@ -8,31 +8,31 @@ import java.util.Map;
  */
 public class ResultModel {
 
-    private int errcode;// 返回码
-    private String errmsg;// 返回消息
-    private Map<String, Object> data;// 数据源
+    private int statusCode;// 返回码
+    private String message;// 返回消息
+    private Object data;// 数据源
 
-    public int getErrcode() {
-        return errcode;
+    public int getStatusCode() {
+        return statusCode;
     }
 
-    public void setErrcode(int errcode) {
-        this.errcode = errcode;
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 
-    public String getErrmsg() {
-        return errmsg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrmsg(String errmsg) {
-        this.errmsg = errmsg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public Map<String, Object> getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(Map<String, Object> data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }
