@@ -33,6 +33,9 @@ public class CorsFilter implements Filter {
         System.out.println("------------初始化过滤器------------");
         patterns.add(Pattern.compile("/login/loginByName"));
         patterns.add(Pattern.compile("/login/isUpdate"));
+        patterns.add(Pattern.compile("/traceability/findTraceabilityByAll"));
+        patterns.add(Pattern.compile("/traceability/findTraceabilityByEquId"));
+        patterns.add(Pattern.compile("/resource/findResourceByAll"));
     }
 
     @Override

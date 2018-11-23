@@ -1,2 +1,12 @@
+com\kingbin\service\TraceabilityService.class
 com\kingbin\model\UpdateModel.class
+com\kingbin\model\ResourceModel.class
+com\kingbin\mapper\ResourceMapper.class
+com\kingbin\controller\ResourceController.class
 com\kingbin\mapper\UpdateMapper.class
+com\kingbin\service\ResourceServiceImpl.class
+com\kingbin\model\TraceabilityModel.class
+com\kingbin\controller\TraceabilityController.class
+com\kingbin\service\TraceabilityServiceImpl.class
+com\kingbin\mapper\TracebilityMapper.class
+com\kingbin\service\ResourceService.class

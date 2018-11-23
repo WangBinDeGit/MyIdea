@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingbin.mapper.TracebilityMapper">
+
+    <!-- 返回结果map与object的关系 -->
+    <resultMap id="TracebilityResultMap" type="com.kingbin.model.TraceabilityModel">
+        <result column="id" jdbcType="BIGINT" property="Id"/>
+        <result column="equid" jdbcType="VARCHAR" property="equId"/>
+        <result column="equname" jdbcType="VARCHAR" property="equName"/>
+        <result column="subid" jdbcType="VARCHAR" property="subId"/>
+        <result column="subname" jdbcType="VARCHAR" property="subName"/>
+        <result column="pmcode" jdbcType="VARCHAR" property="pmCode"/>
+        <result column="unitname" jdbcType="VARCHAR" property="unitName"/>
+    </resultMap>
+
+    <select id="findTraceabilityByAll" resultMap="TracebilityResultMap">
+        SELECT *
+        FROM traceability
+    </select>
+
+    <select id="findTraceabilityByEquId" parameterType="java.lang.String" resultMap="TracebilityResultMap">
+        SELECT *
+        FROM traceability
+        where equid = #{equId,jdbcType = VARCHAR}
+    </select>
+
+</mapper>
