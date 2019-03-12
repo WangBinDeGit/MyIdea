@@ -28,5 +28,4 @@ public class ResourceController {
     public ResultModel findResourceByAll() {
         return resourceService.findResourceByAll();
     }
-
 }

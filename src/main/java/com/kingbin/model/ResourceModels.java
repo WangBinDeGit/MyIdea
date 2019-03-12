@@ -1,18 +1,11 @@
 package com.kingbin.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.List;
 
 /**
  * Created by WangBin on 2018/11/23
  */
-@Table(name = "sys_resource")
-public class ResourceModel {
-    @Id
-    @GeneratedValue(generator = "JDBC", strategy = GenerationType.AUTO)
+public class ResourceModels {
     private String ID;
     private String PID;
     private String RES_CODE;
@@ -24,7 +17,16 @@ public class ResourceModel {
     private String RES_DESC;
     private String CREATOR;
     private String CREATE_TIME;
-    private List<ResourceModel> children;
+    private List<ResourceModels> children;
+
+    public ResourceModels(String id, String parentId, String resName, int level) {
+        super();
+        this.ID = id;
+        this.PID = parentId;
+        this.RES_NAME = resName;
+        this.RES_LEVEL = level;
+    }
+
 
     public String getID() {
         return ID;
@@ -114,11 +116,11 @@ public class ResourceModel {
         this.CREATE_TIME = CREATE_TIME;
     }
 
-    public List<ResourceModel> getChildren() {
+    public List<ResourceModels> getChildren() {
         return children;
     }
 
-    public void setChildren(List<ResourceModel> children) {
+    public void setChildren(List<ResourceModels> children) {
         this.children = children;
     }
 

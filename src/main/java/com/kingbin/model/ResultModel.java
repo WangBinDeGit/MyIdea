@@ -1,7 +1,5 @@
 package com.kingbin.model;
 
-import java.util.Map;
-
 /**
  * Created by WangBin on 2018/10/10
  * 返回封装总类

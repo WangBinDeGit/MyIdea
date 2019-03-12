@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 @Component
 public interface ResourceMapper {
-    /*******查询所有九码溯源数据********/
+    /*******查询结构数据数据********/
     List<ResourceModel> findResourceByAll();
 }
